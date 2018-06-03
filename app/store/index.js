@@ -1,5 +1,5 @@
 import { createStore, compose, applyMiddleware } from "redux";
-import AppReducer from "../reducers";
+import AppReducer from "../reducers/navigation";
 import { AsyncStorage } from "react-native";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";

@@ -59,19 +59,7 @@ export default class Home extends Component {
             style={styles.logo}
           />
           <Text style={styles.welcomeText}>Welcome to cureDelivery.</Text>
-          <RoundedButton
-            text="Continue with Facebook"
-            textColor={colors.green01}
-            background={colors.white}
-            icon={
-              <Icon
-                name="facebook"
-                size={20}
-                style={styles.facebookButtonIcon}
-              />
-            }
-            handleOnPress={this.onFacebookPress}
-          />
+
           <RoundedButton
             text="logIn"
             textColor={colors.white}
@@ -79,6 +67,19 @@ export default class Home extends Component {
           />
         </View>
       </ScrollView>
+      //   <RoundedButton
+      //   text="Continue with Facebook"
+      //   textColor={colors.green01}
+      //   background={colors.white}
+      //   icon={
+      //     <Icon
+      //       name="facebook"
+      //       size={20}
+      //       style={styles.facebookButtonIcon}
+      //     />
+      //   }
+      //   handleOnPress={this.onFacebookPress}
+      // />
     );
   }
 }

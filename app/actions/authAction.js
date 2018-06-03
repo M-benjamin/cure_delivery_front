@@ -1,8 +1,6 @@
 import axios from "axios";
-import Keychain from "react-native-keychain";
 
 import { SIGNIN_URL } from "../api";
-import { addAlert } from "./alertsActions";
 
 exports.loginUser = (email, password) => {
   return function(dispatch) {
