@@ -59,11 +59,43 @@ export default class MapV extends Component {
     // this.setState({ region: regionLocation });
   };
 
-  onMarkerPress = i => {
-    alert("marker click", i);
+  onMarkerPress (i) {
+    
+                  console.log(i);
+                  console.log("madjiiiiiid")
+    console.log("this is " ,this.state.markers[i]);
+   const namePharmacie = this.state.markers[i].fields.rs;
+
+   const address = this.state.markers[i].fields.numvoie + " " + this.state.markers[i].fields.typvoie + " " + this.state.markers[i].fields.voie + " " + this.state.markers[i].fields.cp + ", " + this.state.markers[i].fields.commune;
+   console.log(address);
+    fetch("https://cure-delivery-api.herokuapp.com/api/pharmacie/set", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        nom: namePharmacie,
+        address: address
+      })
+    })
+      
+      .then(responseJson => {
+        console.log("succccccccccc");
+        console.log(responseJson);
+        return responseJson.namePharmacie;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    
     const { navigate } = this.props.navigation;
     navigate("JustifContainer");
   };
+  // TODO LATER
+  redirect (){
+    console.log("pressed");
+  }
 
   // > Get current location of the user
   _PickLocationHandler = () => {};
@@ -87,7 +119,7 @@ export default class MapV extends Component {
             coordinates.latitude = marker.fields.lat;
             coordinates.longitude = marker.fields.lng;
 
-            console.log("I am in location ----->", this.state.location.coords);
+            // console.log("I am in location ----->", this.state.location.coords);
 
             // console.log("cordinates are", coordinates);
             return (
@@ -96,8 +128,8 @@ export default class MapV extends Component {
                 coordinate={coordinates}
                 // coordinate={this.state.location.coords}
                 image={require("../assets/img/tablets.png")}
-                onPress={e => {
-                  e.stopPropagation();
+                onPress={() => {
+                  // e.stopPropagation();
                   this.onMarkerPress(index);
                 }}
               />
