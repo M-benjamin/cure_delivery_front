@@ -20,6 +20,7 @@ import Notification from "../components/Notification";
 import Loader from "../components/Loaders";
 import NavBarButton from "../components/buttons/NavButton";
 import iPhoneSize from "../helpers/utils";
+import { loginUser, signupUser, addAlert } from "../actions/authAction";
 
 const size = iPhoneSize();
 const headingTextSize = 30;
@@ -67,6 +68,8 @@ class SignIn extends Component {
   }
 
   handleNextButton() {
+    // Manage login here
+
     this.setState({ loadingVisible: true });
     const { navigate } = this.props.navigation;
 
