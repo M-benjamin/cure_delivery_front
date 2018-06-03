@@ -36,7 +36,7 @@ const s = StyleSheet.create({
   }
 });
 
-export default class Example extends Component {
+export default class Final extends Component {
   render() {
     return (
       <View style={s.container}>

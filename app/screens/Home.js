@@ -25,14 +25,14 @@ if (size === "small") {
 
 export default class Home extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <NavBarButton
-        handleButtonPress={() => navigation.navigate("SignIn")}
-        location="right"
-        color={colors.white}
-        text="Log In"
-      />
-    ),
+    // headerRight: (
+    //   <NavBarButton
+    //     handleButtonPress={() => navigation.navigate("SignIn")}
+    //     location="right"
+    //     color={colors.white}
+    //     text="Log In"
+    //   />
+    // ),
     headerStyle: transparentHeaderStyle,
     headerTintColor: colors.white
   });
@@ -42,7 +42,8 @@ export default class Home extends Component {
   }
 
   onCreateAccountPress() {
-    alert("Create Account button pressed");
+    const { navigate } = this.props.navigation;
+    navigate("SignIn");
   }
 
   // onMoreOptionsPress() {
@@ -54,7 +55,7 @@ export default class Home extends Component {
       <ScrollView style={styles.wrapper}>
         <View style={styles.welcomeWrapper}>
           <Image
-            // source={require("../img/airbnb-logo.png")}
+            source={require("../assets/img/logo2.png")}
             style={styles.logo}
           />
           <Text style={styles.welcomeText}>Welcome to cureDelivery.</Text>
@@ -74,15 +75,8 @@ export default class Home extends Component {
           <RoundedButton
             text="logIn"
             textColor={colors.white}
-            handleOnPress={this.onCreateAccountPress}
+            handleOnPress={() => this.props.navigation.navigate("SignIn")}
           />
-
-          <TouchableHighlight
-            style={styles.moreOptionsButton}
-            onPress={this.onMoreOptionsPress}
-          >
-            <Text style={styles.moreOptionsButtonText}>More options</Text>
-          </TouchableHighlight>
         </View>
       </ScrollView>
     );

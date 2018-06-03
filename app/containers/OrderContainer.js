@@ -19,11 +19,6 @@ export default class OrderContainer extends Component {
     tabBarLabel: "ORDER",
     tabBarIcon: ({ tintColor }) => (
       <Icon name="shopping-cart" size={22} color={tintColor} />
-
-      // credit-card
-
-      // file-text-o
-      // shopping-cart
     )
   };
 
@@ -87,7 +82,7 @@ export default class OrderContainer extends Component {
 
   render() {
     return (
-      <View style={styles.wrapper}>
+      <ScrollView style={styles.wrapper}>
         <View style={styles.header}>
           <Text style={styles.text}>Check your order :</Text>
         </View>
@@ -103,13 +98,13 @@ export default class OrderContainer extends Component {
         </ScrollView>
         <View style={styles.footer}>
           <TouchableHighlight
-            onPress={() => this._getLocationAsync()}
+            onPress={() => this.props.navigation.navigate("PaymentContainer")}
             style={styles.findHomesButton}
           >
             <Text style={styles.findHomesButtonText}>Go to payment</Text>
           </TouchableHighlight>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

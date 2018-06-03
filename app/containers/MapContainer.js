@@ -8,7 +8,8 @@ import {
   Animated,
   Image,
   Dimensions,
-  TouchableHighlight
+  TouchableHighlight,
+  Alert
 } from "react-native";
 import markers from "../data/pharmacie.json";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -27,17 +28,22 @@ export default class MapV extends Component {
     tabBarLabel: "MAP",
     tabBarIcon: ({ tintColor }) => (
       <Icon name="ios-map" size={22} color={tintColor} />
-    )
+    ),
+    // headerRight: (
+    //   <NavBarButton
+    //     handleButtonPress={() => navigation.navigate("JustifContainer")}
+    //     location="right"
+    //     color={colors.white}
+    //     text="Forgot Password"
+    //   />
+    // ),
+    headerLeft: <Image />,
+    // headerStyle: transparentHeaderStyle,
+    headerTintColor: colors.white
   };
 
   state = {
     markers,
-    // region: {
-    //   latitude: 48.83066175,
-    //   longitude: 2.32964615469007,
-    //   latitudeDelta: 0.04864195044303443,
-    //   longitudeDelta: 0.040142817690068
-    // },
     isLocated: false,
     locationResult: null,
     location: { coords: { latitude: 48.83066177, longitude: 2.32964615469007 } }
@@ -54,15 +60,40 @@ export default class MapV extends Component {
   // }
 
   _getLocationAsync = async () => {
-    
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      this.setState({
+        locationResult: "Permission to access location was denied",
+        location,
+        isLocated: true
+      });
+    }
 
-    // this.setState({ region: regionLocation });
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({
+      locationResult: JSON.stringify(location),
+      location,
+      isLocated: true
+    });
   };
 
-  onMarkerPress = i => {
-    alert("marker click", i);
-    const { navigate } = this.props.navigation;
-    navigate("JustifContainer");
+  onMarkerPress = () => {
+    Alert.alert(
+      "pharmacy",
+      "would you like to choose this pharmacy ?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: () => this.props.navigation.navigate("JustifContainer")
+        }
+      ],
+      { cancelable: false }
+    );
   };
 
   // > Get current location of the user
@@ -98,7 +129,7 @@ export default class MapV extends Component {
                 image={require("../assets/img/tablets.png")}
                 onPress={e => {
                   e.stopPropagation();
-                  this.onMarkerPress(index);
+                  this.onMarkerPress();
                 }}
               />
             );
@@ -110,17 +141,17 @@ export default class MapV extends Component {
               // coordinate={coordinates}
               coordinate={this.state.location.coords}
               image={require("../assets/img/map-m.png")}
-              onPress={e => {
-                e.stopPropagation();
-                this.onMarkerPress(index);
-              }}
+              // onPress={e => {
+              //   e.stopPropagation();
+              //   this.onMarkerPress();
+              // }}
             />
           )}
         </MapView>
 
         <View style={styles.footer}>
           <TouchableHighlight
-            onPress={() => this.redirect()}
+            onPress={() => this._getLocationAsync()}
             style={styles.findHomesButton}
           >
             <Text style={styles.findHomesButtonText}>Locate Me</Text>

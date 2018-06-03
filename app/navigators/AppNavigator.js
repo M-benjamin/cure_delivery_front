@@ -11,7 +11,6 @@ import { navigationPropConstructor } from "../store";
 import Home from "../screens/Home";
 import SignIn from "../screens/Sign-in";
 import MapV from "../screens/map";
-import Order from "../screens/delivery";
 import Final from "../screens/Final";
 
 export const AppNavigator = createStackNavigator({
@@ -23,13 +22,10 @@ export const AppNavigator = createStackNavigator({
   },
   MapV: {
     screen: MapV
-  },
-  // Order: {
-  //   screen: Order
-  // },
-  Final: {
-    screen: Final
   }
+  // Final: {
+  //   screen: Final
+  // }
 });
 
 class AppNavigation extends Component {

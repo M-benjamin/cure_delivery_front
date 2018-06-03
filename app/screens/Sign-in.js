@@ -6,7 +6,8 @@ import {
   Text,
   ScrollView,
   StyleSheet,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Image
 } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -28,14 +29,14 @@ if (size === "small") {
 }
 class SignIn extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <NavBarButton
-        handleButtonPress={() => navigation.navigate("ForgotPassword")}
-        location="right"
-        color={colors.white}
-        text="Forgot Password"
-      />
-    ),
+    // headerRight: (
+    //   <NavBarButton
+    //     handleButtonPress={() => navigation.navigate("JustifContainer")}
+    //     location="right"
+    //     color={colors.white}
+    //     text="Forgot Password"
+    //   />
+    // ),
     headerLeft: (
       <NavBarButton
         handleButtonPress={() => navigation.goBack()}
@@ -93,7 +94,7 @@ class SignIn extends Component {
   }
 
   handleEmailChange(email) {
-    console.log("email", email);
+    console.log("email is ", email);
     const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.setState({ emailAddress: email });
 
@@ -141,6 +142,15 @@ class SignIn extends Component {
       >
         <View style={styles.scrollViewWrapper}>
           <ScrollView style={styles.scrollView}>
+            <Image
+              source={require("../assets/img/logo1.png")}
+              style={{
+                width: 350,
+                height: 100,
+                marginBottom: 20,
+                marginTop: 20
+              }}
+            />
             <Text style={styles.loginHeader}>Log In</Text>
             <InputField
               labelText="EMAIL ADDRESS"

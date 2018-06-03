@@ -7,7 +7,9 @@ import {
   StyleSheet,
   View,
   TouchableHighlight,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert,
+  ScrollView
 } from "react-native";
 import InputField from "../components/form/InputField";
 import colors from "../assets/styles/colors";
@@ -34,7 +36,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <View style={styles.header}>
           <Text style={styles.text}>
             Please take a picture of your ordonnance :
@@ -57,35 +59,57 @@ export default class App extends React.Component {
           />
         </View>
         <View>
-          <Image style={styles.picture} source={{ uri: this.state.uri }} />
-          <TouchableOpacity>
-            <Image
-              style={styles.photo}
-              source={require("../assets/img/photo-cam.png")}
-            />
-          </TouchableOpacity>
+          <View style={styles.pictureContain}>
+            <Image style={styles.picture} source={{ uri: this.state.uri }} />
+          </View>
+          <Button title="Take Picture" onPress={this._takePicture} />
+          <Button title="Select Image" onPress={this._selectPicture} />
         </View>
         <View style={styles.footer}>
-          <TouchableHighlight style={styles.findHomesButton}>
+          <TouchableHighlight
+            style={styles.findHomesButton}
+            onPress={this.justifHandler}
+          >
             <Text style={styles.findHomesButtonText}>Send</Text>
           </TouchableHighlight>
         </View>
-      </View>
-      // <Button title="Take Picture" onPress={this._takePicture}>
+      </ScrollView>
+      // <TouchableOpacity onPress={this._takePicture}>
       //       <Image
-      //     style={styles.photo}
-      //     source={require("../assets/img/photo-cam.png")}
-      //   />
-      // </Button>
-      // <Button title="Select Image" onPress={this._selectPicture} />
+      //         style={styles.photo}
+      //         source={require("../assets/img/photo-cam.png")}
+      //       />
+      //     </TouchableOpacity>
     );
   }
+
+  justifHandler = () => {
+    Alert.alert(
+      "Check order",
+      "your order has been taken into account a pharmacist will return to you shortly",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: () => this.props.navigation.navigate("OrderContainer")
+        }
+      ],
+      { cancelable: false }
+    );
+  };
 
   /**
    * Select picture from image library
    */
   async _selectPicture() {
-    const result = await ImagePicker.launchImageLibraryAsync();
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [3, 5]
+    });
     if (!result.cancelled) {
       await this._setImage(result.uri);
     }
@@ -95,7 +119,10 @@ export default class App extends React.Component {
    * Get picture from camera
    */
   async _takePicture() {
-    const result = await ImagePicker.launchCameraAsync();
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [3, 5]
+    });
     if (!result.cancelled) {
       await this._setImage(result.uri);
     }
@@ -118,12 +145,20 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   picture: {
-    height: 100
+    // height: 100
     // width: 400
+  },
+  pictureContain: {
+    backgroundColor: "#f0f0f1",
+    height: 250,
+    width: 300,
+    marginLeft: 35,
+    marginTop: 10,
+    borderWidth: 2
   },
   header: {
     backgroundColor: colors.bluee,
-    height: 300,
+    height: 150,
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
     shadowOpacity: 1.0
